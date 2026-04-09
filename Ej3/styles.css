@@ -1,0 +1,26 @@
+.cuerpo {
+    margin:0;
+    font-family: sans-serif;
+}
+
+.navegadorInicial {
+    background-color: rgb(56, 56, 56);
+    height: 45px;
+    display:flex;
+    justify-content:space-around;
+    align-items: center;
+}
+
+.linksNav {
+    text-decoration: none;
+    margin-top: 0px;
+    
+    text-align: center;
+    color: gray;
+}
+
+.fotoPerfil {
+    border-radius: 50%;
+    height: 250px;
+    width: 250px;
+}

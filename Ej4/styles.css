@@ -1,0 +1,118 @@
+/*Hice partes con gpt, dejo las lineas comentadas para que me quede todo explicado y me sirva para estudiar despues*/
+
+/*Aplicar box-sizing: border-box global para que el paddin no me altere el tamaño de la caja */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* 2. Definición de Variables CSS */
+:root {
+    /* Colores */
+    --color-fondo-nav: rgb(56, 56, 56);
+    --color-link: gray;
+    --color-link-hover: #ffffff;
+    --color-fondo-pagina: #f4f4f4;
+    
+    /* Medidas y Estilos */
+    --alto-nav: 45px;
+    --radio-perfil: 50%;
+    --tamano-foto: 250px;
+    --borde-redondeado: 15px; /* Para secciones o botones */
+    --sombra-suave: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cuerpo {
+    background-color: var(--color-fondo-pagina);
+    font-family: sans-serif;
+    line-height: 1.6;
+}
+
+.navegadorInicial {
+    background-color: var(--color-fondo-nav);
+    height: var(--alto-nav);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /* Agregamos sombra y bordes usando variables */
+    box-shadow: var(--sombra-suave);
+    margin-bottom: 20px;
+}
+
+.linksNav {
+    text-decoration: none;
+    color: var(--color-link);
+    font-weight: bold;
+    transition: color 0.3s; /* Para que el cambio de color sea suave */
+}
+
+.linksNav:hover {
+    color: var(--color-link-hover);
+}
+
+.fotoPerfil {
+    border-radius: var(--radio-perfil);
+    height: var(--tamano-foto);
+    width: var(--tamano-foto);
+    box-shadow: var(--sombra-suave);
+    border: 4px solid white;
+    display: block;
+    margin: 20px auto; /* La centra horizontalmente */
+}
+
+/* Ejemplo de sección organizada con Flexbox y variables */
+.contenedor-principal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background: white;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: var(--borde-redondeado);
+    box-shadow: var(--sombra-suave);
+}
+
+/* Clase para el contenedor principal (envolvé tus h2 y ul en un <main class="contenido">) */
+.contenido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: var(--borde-redondeado);
+    box-shadow: var(--sombra-suave);
+}
+
+/* Clase para que el título se destaque */
+.titulo-seccion {
+    color: var(--color-fondo-nav);
+    border-bottom: 3px solid var(--color-link);
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Clase para la lista de hobbies (hace que no parezca una lista aburrida) */
+.lista-estilizada {
+    list-style: none; /* Quitamos los puntos por defecto */
+    width: 100%;
+}
+
+.item-lista {
+    background-color: var(--color-fondo-pagina);
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 5px solid var(--color-link); /* Un detalle de color a la izquierda */
+    transition: transform 0.2s;
+}
+
+.item-lista:hover {
+    transform: translateX(10px); /* Efecto de desplazamiento al pasar el mouse */
+    background-color: #e9ecef;
+}

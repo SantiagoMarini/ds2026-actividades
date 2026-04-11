@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi CV - Contacto</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="cuerpo">
+    <nav class="navegadorInicial">
+        <a href="index.html" class="linksNav">Inicio</a>
+        <a href="estudios.html" class="linksNav">Estudios</a>
+        <a href="experiencia.html" class="linksNav">Experiencia</a>
+        <a href="hobbies.html" class="linksNav">Hobbies</a>
+        <a href="contacto.html" class="linksNav">Contacto</a>
+    </nav>
+
+    <main class="contenido">
+        <h2 class="titulo-seccion">Contacto</h2>
+
+        <form class="form-contacto" id="formContacto">
+
+            <div class="form-grupo">
+                <label for="nombre">Nombre completo</label>
+                <input
+                    type="text"
+                    id="nombre"
+                    name="nombre"
+                    placeholder="Ej: Juan Pérez"
+                    required
+                    minlength="3"
+                    maxlength="60"
+                >
+            </div>
+
+            <div class="form-grupo">
+                <label for="email">Correo electrónico</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="ejemplo@correo.com"
+                    required
+                >
+            </div>
+
+            <div class="form-grupo">
+                <label for="asunto">Asunto</label>
+                <select id="asunto" name="asunto" required>
+                    <option value="">-- Seleccioná un asunto --</option>
+                    <option value="trabajo">Oferta laboral</option>
+                    <option value="proyecto">Propuesta de proyecto</option>
+                    <option value="consulta">Consulta general</option>
+                    <option value="otro">Otro</option>
+                </select>
+            </div>
+
+            <div class="form-grupo">
+                <label for="mensaje">Mensaje</label>
+                <textarea
+                    id="mensaje"
+                    name="mensaje"
+                    placeholder="Escribí tu mensaje acá..."
+                    required
+                    minlength="10"
+                    maxlength="500"
+                ></textarea>
+            </div>
+
+            <button type="submit" class="btn-enviar">Enviar mensaje</button>
+
+</body>
+</html>

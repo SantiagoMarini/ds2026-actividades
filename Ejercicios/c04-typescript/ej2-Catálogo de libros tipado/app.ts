@@ -43,24 +43,40 @@ let stat: any = document.getElementById("stats") as HTMLInputElement;
 let listado = document.getElementById("listado") as HTMLElement;
 
 
-/* esta funcion filtra y muestra directamente
-function buscarPorAutor(): void {   
-    //obtengo el valor del input de texto con id filtroAutor
-    let autor: string = (document.getElementById("filtroAutor") as HTMLInputElement).value;
-    //imprimo en el area del div resultado los libros que cumplan con la condicion
-    resultado.textContent = libros.filter(libro => libro.autor === autor);
-}*/
-
-
-//funcion para mostrar cantidad y precio promedio en el parrafo de stadisticas
-function mostrarStats(arrayLibro: Libro[]): void {
-    stat.textContent = `Cantidad:${arrayLibro.length} - precio Promedio:$${precioPromedio(arrayLibro).toFixed(2)}`;
-}
-
 // esta función solo filtra y retorna
 function buscarPorAutor(autor: string): Libro[] {
     return libros.filter(libro => libro.autor === autor);
 }
+
+
+//funcion de retorno array de libros con diponibilidad true
+function buscarDisponibles(): Libro[] {
+    return libros.filter(libro => libro.disponible);
+}
+
+
+//promedio de los precios
+function precioPromedio(libros: Libro[]): number {
+   // retorna promedio de todos los precios
+    return (libros.reduce((total, libro) => total + libro.precio, 0))/libros.length;
+}
+
+
+//muestra los libros en el <ul> y actualiza el <p> de stats
+function renderizar(libros: Libro[]): void {
+
+    //Limpia el contenido del <ul> antes de agregar los nuevos resultados. Si no, cada vez que filtrás se van acumulando los resultados anteriores.
+    listado.innerHTML = "";
+
+    libros.forEach(libro => {
+        listado.innerHTML += `<li>${libro.titulo} - ${libro.autor} - ${libro.precio}</li>`
+    })
+
+    //mostrar cantidad y precio promedio en el parrafo de stadisticas
+    stat.textContent = `Cantidad:${libros.length} - precio Promedio:$${precioPromedio(libros).toFixed(2)}`;
+
+}
+
 
 // esta función se encarga de mostrar en el HTML
 function mostrarFiltroAutor(): void {
@@ -72,48 +88,20 @@ function mostrarFiltroAutor(): void {
         alert("El campo no puede estar vacío");
         return;
     }
-
-    //Limpia el contenido del <ul> antes de agregar los nuevos resultados. Si no, cada vez que filtrás se van acumulando los resultados anteriores.
-    listado.innerHTML = "";
-
-    //listo en el HTML el array de libros que cumplen la condicion de autor
-    buscarPorAutor(autor).forEach(libro => {
-        listado.innerHTML += `<li>${libro.titulo} - ${libro.autor} - ${libro.precio}</li>`; });
-
-    mostrarStats(buscarPorAutor(autor));
+    
+    //muestra en el html
+    renderizar(buscarPorAutor(autor));
 }
 
-//funcion de retorno array de libros con diponibilidad true
-function buscarDisponibles(): Libro[] {
-    return libros.filter(libro => libro.disponible);
+// botón Ver todos
+function mostrarTodos(): void {
+    renderizar(libros);
 }
 
-function mostrarFiltroDisponible(): void {
-
-    //Limpia el contenido del <ul> antes de agregar los nuevos resultados. Si no, cada vez que filtrás se van acumulando los resultados anteriores.
-    listado.innerHTML = "";
-
-    buscarDisponibles().forEach(libro => {
-        listado.innerHTML += `<li>${libro.titulo} - ${libro.autor} - ${libro.precio}</li>`; });
-
-    mostrarStats(buscarDisponibles());
+// botón Solo disponibles
+function mostrarDisponibles(): void {
+    renderizar(buscarDisponibles());
 }
 
-
-function mostrarTodos():void {
-
-    //Limpia el contenido del <ul> antes de agregar los nuevos resultados. Si no, cada vez que filtrás se van acumulando los resultados anteriores.
-    listado.innerHTML = "";
-
-    libros.forEach(libro => {
-        listado.innerHTML += `<li>${libro.titulo} - ${libro.autor} - ${libro.precio}</li>`
-    })
-
-    mostrarStats(libros);
-}
-
-
-function precioPromedio(libros: Libro[]): number {
-   // retorna promedio de todos los precios
-    return (libros.reduce((total, libro) => total + libro.precio, 0))/libros.length;
-}
+//para mostrar el catalogo al cargar la pagina
+renderizar(libros);

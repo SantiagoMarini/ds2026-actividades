@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 3</title>
+</head>
+<body>
+    <h1>Catálogo</h1>
+    <input type="text" id="filtroAutor" placeholder="ingrese el auto a filtrar">
+    <button onclick="mostrarFiltroAutor()"  id="filtrar">Filtrar</button>
+    <button onclick="mostrarDisponibles()" id="mostrarDisponibles">Solo disponibles</button>
+    <button onclick="mostrarTodos()" id="mostrarTodos">Ver todos</button>
+    
+    <form style="background-color: rgb(212, 212, 212);" id="formularioLibro">
+    <h3>Agregar Libro</h3>
+    <input type="text" id="nombre" placeholder="ingrese Nombre del libro">
+    <input type="text" id="autor" placeholder="ingrese Autor del libro">
+    <input type="text" id="precio" placeholder="ingrese Precio del libro">
+    <input type="text" id="genero" placeholder="(Opcional) Genero del libro">
+    <label for="disponibilidad">¿Libro Disponible?</label>
+    <select id="disponibilidad" name="confirmacion">
+        <option value="">Seleccione:</option>
+        <option value="si">Sí</option>
+        <option value="no">No</option>
+    </select>
+    <button type="button" id="agregar">Agregar</button>
+    <p id="errorForm"></p>
+    </form>
+    <ul id="listado"></ul>
+    <p id="stats"></p>
+    
+
+
+    <script src="app.js"></script>
+</body>
+</html>

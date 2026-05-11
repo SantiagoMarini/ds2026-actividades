@@ -5,35 +5,222 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        /* ── HERO ── */
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            padding: 100px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url("https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1400&q=60") center/cover no-repeat;
+            opacity: 0.15;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            opacity: .85;
+            max-width: 540px;
+            margin: 0 auto 2rem;
+        }
+        .hero .btn-hero {
+            background: #e94560;
+            border: none;
+            color: #fff;
+            padding: 0.75rem 2.25rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: background .25s, transform .2s;
+        }
+        .hero .btn-hero:hover {
+            background: #c73652;
+            transform: translateY(-2px);
+            color: #fff;
+        }
+
+        /* ── CARDS ── */
+        .section-destacados {
+            padding: 60px 0;
+            background: #f8f9fa;
+        }
+        .section-destacados h2 {
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 2px 12px rgba(0,0,0,.08);
+            transition: transform .25s, box-shadow .25s;
+            height: 100%;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,.14);
+        }
+        .card-img-top {
+            height: 220px;
+            object-fit: cover;
+        }
+        .card-title {
+            font-weight: 700;
+            font-size: .95rem;
+        }
+        .card-text {
+            font-size: .85rem;
+            color: #6c757d;
+        }
+        .btn-ver-mas {
+            background: #0f3460;
+            color: #fff;
+            border: none;
+            font-size: .85rem;
+            border-radius: 50px;
+            padding: .35rem 1.1rem;
+            text-decoration: none;
+            transition: background .2s;
+        }
+        .btn-ver-mas:hover {
+            background: #e94560;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
+
+    <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <img src=".img/98074f77-8f7f-4e83-88d7-8d24922290c2-removebg-preview.png" alt="foto de libro" width="60" height="45">
             <a class="navbar-brand" href="#">Mending</a>
-            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="catalogo.html">Catalogo</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="contacto.html">Sobre nosotros</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="libro.html">Libros</a>
-                </li>
-            </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="catalogo.html">Catalogo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contacto.html">Sobre nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="libro.html">Libros</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
 
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content container">
+            <h1>Bienvenido a Mending</h1>
+            <p>Descubrí nuestra colección de libros cuidadosamente seleccionados para cada tipo de lector.</p>
+            <a href="catalogo.html" class="btn-hero">Ver catálogo</a>
+        </div>
+    </section>
+
+    <!-- CARDS DESTACADOS -->
+    <section class="section-destacados">
+        <div class="container">
+            <h2 class="text-center">Libros Destacados</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+
+                <!-- Libro 1 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://www.edicontinente.com.ar/image/titulos/9788466379717.jpg" class="card-img-top" alt="Portada libro 1">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Cien años de soledad</h5>
+                            <p class="card-text">Gabriel García Márquez</p>
+                            <a href="libro.html" class="btn-ver-mas mt-auto align-self-start">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Libro 2 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzHx-Tlw3Ny-DkHPeA5zM6eUAHbuBaemh-6Q&" class="card-img-top" alt="Portada libro 2">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">El nombre de la rosa</h5>
+                            <p class="card-text">Umberto Eco</p>
+                            <a href="libro.html" class="btn-ver-mas mt-auto align-self-start">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Libro 3 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl5ZXOb00AiZtPAIKONBmOeFkSpQ7-HkolJg&s" class="card-img-top" alt="Portada libro 3">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">1984</h5>
+                            <p class="card-text">George Orwell</p>
+                            <a href="libro.html" class="btn-ver-mas mt-auto align-self-start">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Libro 4 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_cvb4GTVUgnp66yfvr6V7WqRRb1lwAHKMSA&s" class="card-img-top" alt="Portada libro 4">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Rayuela</h5>
+                            <p class="card-text">Julio Cortázar</p>
+                            <a href="libro.html" class="btn-ver-mas mt-auto align-self-start">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Libro 5 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://tienda.planetadelibros.com.ar/cdn/shop/products/portada_el-principito_antoine-de-saint-exupery_201507152131.jpg?v=1684356025" class="card-img-top" alt="Portada libro 5">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">El Principito</h5>
+                            <p class="card-text">Antoine de Saint-Exupéry</p>
+                            <a href="libro.html" class="btn-ver-mas mt-auto align-self-start">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Libro 6 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://sibaritalarevista.com/wp-content/uploads/2026/03/libros.jpg" class="card-img-top" alt="Portada libro 6">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Ficciones</h5>
+                            <p class="card-text">Jorge Luis Borges</p>
+                            <a href="libro.html" class="btn-ver-mas mt-auto align-self-start">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>

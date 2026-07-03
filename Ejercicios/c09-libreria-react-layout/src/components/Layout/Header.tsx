@@ -1,9 +1,9 @@
-import logoImagen from '../assets/img/98074f77-8f7f-4e83-88d7-8d24922290c2-removebg-preview.png';
-import plantas from '../assets/img/Header-background.png';
+import logoImagen from '../../assets/img/98074f77-8f7f-4e83-88d7-8d24922290c2-removebg-preview.png';
+import plantas from '../../assets/img/Header-background.png';
 import { useState } from 'react';
 
 //el componente que va a recibir el nombre de la pagina actual
-export function Navbar({ pestañaActiva = 'Home' }) {
+export function Header({ pestañaActiva = 'Home' }) {
     const [menuAbierto, setMenu] = useState(false);
 
     return (

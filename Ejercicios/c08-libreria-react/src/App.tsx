@@ -1,6 +1,6 @@
 import {type Libro, LibroCard} from './components/LibroCard'
 import {Navbar} from './components/NabBar'
-import {Hero} from './components/hero'
+import {Hero} from './components/Hero'
 import minerales from './assets/img/Background.webp';
 
 const librosDestacados: Libro[] = [
@@ -50,23 +50,19 @@ const librosDestacados: Libro[] = [
 
 function App(){
   return (
-    // 1. Corregido el & por % en el bg-[length]
     <div className="min-h-screen bg-[length:auto_100%] bg-repeat"
         style={{ backgroundImage: `url(${minerales})` }}>
 
         <Navbar />
         <Hero />
       
-        {/* 2. Reemplazamos mx-10 por max-w-6xl y mx-auto para centrar y restringir el ancho */}
-        {/* También aumenté un poquito el padding vertical (py-12) para que respire más */}
+
         <div className='max-w-6xl mx-auto px-6 py-12'>
           
-          {/* Aumenté el mb-4 a mb-10 para separar un poco más el título de las cards */}
           <h2 className='text-center text-2xl md:text-4xl font-bold text-white mb-10 [text-shadow:3px_3px_#000]'>
             LIBROS DESTACADOS
           </h2>
           
-          {/* Cambié gap-6 por gap-8 para que los libros estén un poco más separados entre sí, como en la original */}
           <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8'>
             {
               librosDestacados.map( (l, i) =>

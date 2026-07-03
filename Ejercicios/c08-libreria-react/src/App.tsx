@@ -1,122 +1,83 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import {type Libro, LibroCard} from './components/LibroCard'
+import {Navbar} from './components/NabBar'
+import {Hero} from './components/hero'
+import minerales from './assets/img/Background.webp';
 
-function App() {
-  const [count, setCount] = useState(0)
+const librosDestacados: Libro[] = [
+  {
+    titulo: "Cien años de soledad",
+    texto: "Obra cumbre del realismo mágico.",
+    autor: "Gabriel García Márquez",
+    precio: 15000,
+    imagen: "https://www.edicontinente.com.ar/image/titulos/9788466379717.jpg"
+  },
+  {
+    titulo: "El nombre de la rosa",
+    texto: "Un misterio en una abadía medieval.",
+    autor: "Umberto Eco",
+    precio: 18000,
+    imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzHx-Tlw3Ny-DkHPeA5zM6eUAHbuBaemh-6Q&"
+  },
+  {
+    titulo: "1984",
+    texto: "Una visión distópica del futuro.",
+    autor: "George Orwell",
+    precio: 12000,
+    imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl5ZXOb00AiZtPAIKONBmOeFkSpQ7-HkolJg&s"
+  },
+  {
+    titulo: "Rayuela",
+    texto: "Una novela que se puede leer de múltiples formas.",
+    autor: "Julio Cortázar",
+    precio: 16000,
+    imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_cvb4GTVUgnp66yfvr6V7WqRRb1lwAHKMSA&s"
+  },
+  {
+    titulo: "El Principito",
+    texto: "Lo esencial es invisible a los ojos.",
+    autor: "Antoine de Saint-Exupéry",
+    precio: 10000,
+    imagen: "https://tienda.planetadelibros.com.ar/cdn/shop/products/portada_el-principito_antoine-de-saint-exupery_201507152131.jpg?v=1684356025"
+  },
+  {
+    titulo: "Ficciones",
+    texto: "Cuentos que exploran laberintos y espejos.",
+    autor: "Jorge Luis Borges",
+    precio: 14000,
+    imagen: "https://sibaritalarevista.com/wp-content/uploads/2026/03/libros.jpg"
+  }
+];
 
+function App(){
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    // 1. Corregido el & por % en el bg-[length]
+    <div className="min-h-screen bg-[length:auto_100%] bg-repeat"
+        style={{ backgroundImage: `url(${minerales})` }}>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+        <Navbar />
+        <Hero />
+      
+        {/* 2. Reemplazamos mx-10 por max-w-6xl y mx-auto para centrar y restringir el ancho */}
+        {/* También aumenté un poquito el padding vertical (py-12) para que respire más */}
+        <div className='max-w-6xl mx-auto px-6 py-12'>
+          
+          {/* Aumenté el mb-4 a mb-10 para separar un poco más el título de las cards */}
+          <h2 className='text-center text-2xl md:text-4xl font-bold text-white mb-10 [text-shadow:3px_3px_#000]'>
+            LIBROS DESTACADOS
+          </h2>
+          
+          {/* Cambié gap-6 por gap-8 para que los libros estén un poco más separados entre sí, como en la original */}
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8'>
+            {
+              librosDestacados.map( (l, i) =>
+                <LibroCard key={i} libro={l} />
+              )
+            }
+          </div>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      
+    </div>
+  );
 }
 
-export default App
+export default App;

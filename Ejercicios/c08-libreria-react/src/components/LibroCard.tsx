@@ -1,7 +1,10 @@
 import { useState } from 'react';
+import corazonVacio from '../assets/img/301904d2-75b7-4c5e-9f54-e37125a99ef7.png';
+import corazonLleno from '../assets/img/mc-heart-transparent-big.png';
+import cartel from '../assets/img/LightGrassBackground.png';
 
 
-interface Libro {
+export interface Libro {
     titulo: string;
     texto: string;
     autor: string;
@@ -17,16 +20,33 @@ interface LibroCardProps {
 export function LibroCard({libro}: LibroCardProps){
     const [meGusta, setMeGusta] = useState(false);
     return (
-        <div className="flex flex-col border border-gray-200 rounded-lg shadow-sm h-full overflow-hidden bg-white">
-            <img className="w-full h-[220px] object-cover" src={libro.imagen} alt={`portada de ${libro.titulo}`} />
-            <div className="p-4 flex flex-col flex-grow gap-2" >
-                <h2 className="text-lg font-bold text-gray-800">{libro.titulo}</h2>
-                <p className="text-sm text-gray-600">{libro.autor}</p>
-                <div className="mt-auto flex justify-between items-center w-full">
-                    <a href="libro.html" className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">Ver más</a>
-                    <button onClick={() => setMeGusta(!meGusta)} className="text-xl cursor-pointer">{meGusta ? '🩷' : '🩶'}</button>
+        <div className="flex flex-col border border-gray-200 rounded-lg shadow-sm h-full overflow-hidden">
+            <img className="w-full h-55 object-cover" src={libro.imagen} alt={`portada de ${libro.titulo}`} />
+            <div className="p-4 flex flex-col grow gap-2 bg-repeat-x bg-[length:auto_100%]"
+    style={{ backgroundImage: `url(${cartel})` }}>
+    
+                <h2 className="pt-4 text-2xl font-bold text-white mb-4 [text-shadow:3px_3px_#000]">{libro.titulo}</h2>
+                <p className="text-xl text-white [-webkit-text-stroke:0.5px_gray]">{libro.autor}</p>
+                
+                <div className="flex items-stretch gap-2 mt-auto">
+
+                    <a href="libro.html" className="btn-minecraft flex-1 flex justify-center items-center">
+                        <span className="translate-y-1">Ver más</span>
+                    </a>
+
+                    <button 
+                        className="btn-minecraft w-14 flex justify-center items-center cursor-pointer"
+                        onClick={() => setMeGusta(!meGusta)}
+                    >
+                        <img 
+                            className="w-6 h-6 object-contain"
+                            src={meGusta ? corazonLleno : corazonVacio} 
+                            alt={meGusta ? "Quitar me gusta" : "Dar me gusta"} 
+                        />
+                    </button>
+
                 </div>
             </div>
         </div>
-        );
+    );
 }

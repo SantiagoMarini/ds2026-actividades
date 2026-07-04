@@ -3,6 +3,8 @@ import { type Libro } from '../types/libro';
 import corazonVacio from '../assets/img/301904d2-75b7-4c5e-9f54-e37125a99ef7.png';
 import corazonLleno from '../assets/img/mc-heart-transparent-big.png';
 import cartel from '../assets/img/LightGrassBackground.png';
+import { Link } from 'react-router-dom';
+
 
 
 interface LibroCardProps {
@@ -23,9 +25,9 @@ export function LibroCard({libro}: LibroCardProps){
                 
                 <div className="flex items-stretch gap-2 mt-auto">
 
-                    <a href="libro.html" className="btn-minecraft flex-1 flex justify-center items-center">
+                    <Link to={`/libros/${libro.titulo}`} className="btn-minecraft flex-1 flex justify-center items-center">
                         <span className="translate-y-1">Ver más</span>
-                    </a>
+                    </Link>
 
                     <button 
                         className="btn-minecraft w-14 flex justify-center items-center cursor-pointer"

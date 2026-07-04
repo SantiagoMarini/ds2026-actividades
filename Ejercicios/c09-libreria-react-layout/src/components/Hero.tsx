@@ -1,5 +1,5 @@
 import libreria from '../assets/img/libreria.png'
-
+import { Link } from 'react-router-dom';
 export function Hero(){
     return(
         <section className="pt-20 pb-20 bg-repeat bg-[length:auto_100%] border-2"
@@ -14,11 +14,11 @@ export function Hero(){
                     Descubrí nuestra colección de libros cuidadosamente seleccionados para cada tipo de lector.
                 </p>
                 
-                <a href="catalogo.html" className="btn-minecraft-green inline-block px-6 py-2">
+                <Link to="/catalogo" className="btn-minecraft-green inline-block px-6 py-2">
                     <span className="inline-block translate-y-1">
                         Ver catálogo
                     </span>
-                </a>
+                </Link>
 
             </div>
         </section>

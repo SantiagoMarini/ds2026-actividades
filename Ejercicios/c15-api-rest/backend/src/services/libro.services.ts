@@ -1,4 +1,4 @@
-import { Libro } from "../types/autor.types.ts";
+import { Libro } from "../types/libro.types";
 
 const libros: Libro[] = [
     {
@@ -51,6 +51,36 @@ const libros: Libro[] = [
     }
     ];
 
-    let contId: number = 6;
+let proximoId = 11;
 
+// Este service no sabe que existe HTTP: no ve req ni res, y no devuelve status codes.
+// Si "disponible" viene undefined, devuelve todo.
+export function findAll(disponible?: boolean): Libro[] {
+  if (disponible === undefined) return libros;
+  return libros.filter(libro => libro.disponible === disponible);
+}
+
+export function findById(id: number): Libro | undefined {
+  return libros.find(libro => libro.id === id);
+}
+// Omit<Libro, "id"> = un Libro sin el id. El id lo pone el servidor, no el cliente.
+export function create(datos: Omit<Libro, "id">): Libro {
+  const nuevo: Libro = { id: proximoId++, ...datos };
+  libros.push(nuevo);
+  return nuevo;
+}
+
+export function update(id: number, datos: Omit<Libro, "id">): Libro | undefined {
+  const i = libros.findIndex(libro => libro.id === id);
+  if (i === -1) return undefined;
+  libros[i] = { id, ...datos };
+  return libros[i];
+}
+
+export function remove(id: number): boolean {
+  const i = libros.findIndex(libro => libro.id === id);
+  if (i === -1) return false;
+  libros.splice(i, 1);
+  return true;
+}
     

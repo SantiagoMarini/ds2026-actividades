@@ -1,24 +1,16 @@
 import express from "express";
+import libroRoutes from "./routes/libro.routes";
+import autorRoutes from "./routes/autor.routes";
 
 const app = express();
 const PORT = 3000;
 
+app.use(express.json());
 
-app.get("/libros", (req, res) => {
-    const { disponible } = req.query;
-    if (disponible == undefined) {
-        res.json(libros);
-        return;
-    } else if (disponible || disponible === "false") {
-        res.json(libros.filter(libro => libro.disponible === (disponible === "true")));
-    } else {
-        res.json(libros);
-    }
-});
+app.use("/api/libros", libroRoutes);
 
-app.get("/autores", (req, res) => {
-    res.json(autores);
-});
+app.use("/api/autores", autorRoutes);
+
 app.listen(PORT, () => {
     console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });

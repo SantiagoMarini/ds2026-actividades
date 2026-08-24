@@ -1,41 +1,40 @@
     import { prisma } from "../src/config/prisma";
     
-    const autores: Autor[] = [
+    const autores = [
     {
-        id: 1,
+        id: 101,
         nombre: "Gabriel García Márquez",
         nacionalidad: "Colombiana"
     },
     {
-        id: 2,
+        id: 102,
         nombre: "Umberto Eco",
         nacionalidad: "Italiana"
     },
     {
-        id: 3,
+        id: 103,
         nombre: "George Orwell",
         nacionalidad: "Británica"
     },
     {
-        id: 4,
+        id: 104,
         nombre: "Julio Cortázar",
         nacionalidad: "Argentina"
     },
     {
-        id: 5,
+        id: 105,
         nombre: "Antoine de Saint-Exupéry",
         nacionalidad: "Francesa"
     },
     {
-        id: 6,
+        id: 106,
         nombre: "Jorge Luis Borges",
         nacionalidad: "Argentina"
     }
 ];
 
-const libros: Libro[] = [
+const libros = [
     {
-        id: 1,
         titulo: "Cien años de soledad",
         autor: "Gabriel García Márquez",
         precio: 15000,
@@ -43,7 +42,6 @@ const libros: Libro[] = [
         disponible: true
     },
     {
-        id: 2,
         titulo: "El nombre de la rosa",
         autor: "Umberto Eco",
         precio: 18000,
@@ -51,7 +49,6 @@ const libros: Libro[] = [
         disponible: true
     },
     {   
-        id: 3,
         titulo: "1984",
         autor: "George Orwell",
         precio: 12000,
@@ -59,7 +56,6 @@ const libros: Libro[] = [
         disponible: true
     },
     {
-        id: 4,
         titulo: "Rayuela",
         autor: "Julio Cortázar",
         precio: 16000,
@@ -67,7 +63,6 @@ const libros: Libro[] = [
         disponible: true
     },
     {
-        id: 5,
         titulo: "El Principito",
         autor: "Antoine de Saint-Exupéry",
         precio: 10000,
@@ -75,7 +70,6 @@ const libros: Libro[] = [
         disponible: false
     },
     {
-        id: 6,
         titulo: "Ficciones",
         autor: "Jorge Luis Borges",
         precio: 14000,

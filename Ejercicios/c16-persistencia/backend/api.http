@@ -6,7 +6,7 @@ GET {{baseUrl}}/
 GET {{baseUrl}}/api/libros
 
 ### Autores
-GET {{baseUrl}}/api/autores/25
+GET {{baseUrl}}/api/autores/101
 
 ### Libros disponibles
 GET {{baseUrl}}/api/libros?disponible=true

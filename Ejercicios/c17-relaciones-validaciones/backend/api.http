@@ -1,0 +1,161 @@
+@baseUrl = http://localhost:3000/api
+
+### ============================
+### LIBROS
+### ============================
+
+### Listar todos los libros
+GET {{baseUrl}}/libros
+
+### Listar solo disponibles
+GET {{baseUrl}}/libros?disponible=true
+
+### Obtener un libro por id (con autor y categorías)
+GET {{baseUrl}}/libros/1
+
+
+### Crear un libro
+POST {{baseUrl}}/libros
+Content-Type: application/json
+
+{
+  "titulo": "Cien años de soledad",
+  "precio": 8500,
+  "imagen": "https://ejemplo.com/cien-anios.jpg",
+  "autorId": 101
+}
+
+### Actualizar un libro (parcial)
+PUT {{baseUrl}}/libros/1
+Content-Type: application/json
+
+{
+  "precio": 9200
+}
+
+### Borrar un libro
+DELETE {{baseUrl}}/libros/12
+
+
+### ============================
+### AUTORES
+### ============================
+
+### Listar todos los autores
+GET {{baseUrl}}/autores
+
+### Obtener un autor por id
+GET {{baseUrl}}/autores/1
+
+### Crear un autor
+POST {{baseUrl}}/autores
+Content-Type: application/json
+
+{
+  "nombre": "Gabriel García Márquez",
+  "nacionalidad": "Colombia"
+}
+
+### Actualizar un autor
+PUT {{baseUrl}}/autores/1
+Content-Type: application/json
+
+{
+  "nacionalidad": "Colombiana"
+}
+
+### Borrar un autor
+DELETE {{baseUrl}}/autores/1
+
+
+### ============================
+### CATEGORIAS
+### ============================
+
+### Listar todas las categorías
+GET {{baseUrl}}/categorias
+
+### Obtener una categoría por id
+GET {{baseUrl}}/categorias/1
+
+### Crear una categoría
+POST {{baseUrl}}/categorias
+Content-Type: application/json
+
+{
+  "nombre": "Novela"
+}
+
+### Actualizar una categoría
+PUT {{baseUrl}}/categorias/1
+Content-Type: application/json
+
+{
+  "nombre": "Novela histórica"
+}
+
+### Borrar una categoría
+DELETE {{baseUrl}}/categorias/1
+
+
+### ============================
+### CASOS DE ERROR
+### ============================
+
+### 400 - libro sin título (falla Zod)
+POST {{baseUrl}}/libros
+Content-Type: application/json
+
+{
+  "precio": 5000,
+  "imagen": "https://ejemplo.com/x.jpg",
+  "autorId": 1
+}
+
+### 400 - precio negativo (falla Zod)
+POST {{baseUrl}}/libros
+Content-Type: application/json
+
+{
+  "titulo": "Libro gratis",
+  "precio": -100,
+  "imagen": "https://ejemplo.com/x.jpg",
+  "autorId": 1
+}
+
+### 400 - id con formato inválido (letras en vez de número)
+GET {{baseUrl}}/libros/abc
+
+### 400 - autor con formato válido pero que no existe (P2003 en el service)
+POST {{baseUrl}}/libros
+Content-Type: application/json
+
+{
+  "titulo": "Libro huérfano",
+  "precio": 5000,
+  "imagen": "https://ejemplo.com/x.jpg",
+  "autorId": 9999
+}
+
+### 404 - actualizar un libro que no existe
+PUT {{baseUrl}}/libros/9999
+Content-Type: application/json
+
+{
+  "precio": 100
+}
+
+### 404 - borrar una categoría que no existe
+DELETE {{baseUrl}}/categorias/9999
+
+### 409 - crear un autor duplicado (viola @unique en nombre)
+POST {{baseUrl}}/autores
+Content-Type: application/json
+
+{
+  "nombre": "Gabriel García Márquez",
+  "nacionalidad": "Colombia"
+}
+
+### 409 - borrar un autor que todavía tiene libros (onDelete: Restrict)
+DELETE {{baseUrl}}/autores/1

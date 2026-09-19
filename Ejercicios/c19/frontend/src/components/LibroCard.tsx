@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 interface LibroCardProps {
     //para no tener que crear muchas interfaces sobre libro, la card pide estrictamente lo que va a renderizar
-    libro: Pick<LibroCardData, 'titulo' | 'autor' | 'imagen'>;
+    libro: Pick<LibroCardData, 'id' | 'titulo' | 'autor' | 'imagen'>;
 }
 
 export function LibroCard({libro}: LibroCardProps){
@@ -25,7 +25,7 @@ export function LibroCard({libro}: LibroCardProps){
                 
                 <div className="flex items-stretch gap-2 mt-auto">
 
-                    <Link to={`/libros/${libro.titulo}`} className="btn-minecraft flex-1 flex justify-center items-center">
+                    <Link to={`/libros/${encodeURIComponent(libro.id)}`} className="btn-minecraft flex-1 flex justify-center items-center">
                         <span className="translate-y-1">Ver más</span>
                     </Link>
 

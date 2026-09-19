@@ -1,35 +1,40 @@
 import { useState, useEffect } from 'react';
 
-// <T> nos permite definir que tipo de dato esperamos recibir
 export function useFetch<T>(url: string) {
-    const [data, setData] = useState<T | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [resultado, setResultado] = useState<{
+        url: string;
+        data: T | null;
+        error: string | null;
+    }>({ url: '', data: null, error: null });
 
     useEffect(() => {
+        if (!url) return;
+        const controller = new AbortController();
 
         const cargar = async () => {
             try {
-                setLoading(true);
-                setError(null);
-                
-                const res = await fetch(url);
+                const res = await fetch(url, { signal: controller.signal });
                 if (!res.ok) throw new Error('Error al cargar los datos');
-                
-                const json = await res.json();
-                setData(json);
-            } catch (e) {
-                setError(e instanceof Error ? e.message : 'Error desconocido');
-            } finally {
-                setLoading(false);
+                const data: T = await res.json();
+                if (!controller.signal.aborted) setResultado({ url, data, error: null });
+            } catch (error) {
+                if (!controller.signal.aborted) {
+                    setResultado({
+                        url, data: null,
+                        error: error instanceof Error ? error.message : 'Error desconocido',
+                    });
+                }
             }
         };
 
-        // Si la URL no está vacía, hacemos el fetch
-        if (url) {
-            cargar();
-        }
+        cargar();
+        return () => controller.abort();
     }, [url]);
 
-    return { data, loading, error };
+    const vigente = Boolean(url) && resultado.url === url;
+    return {
+        data: vigente ? resultado.data : null,
+        loading: Boolean(url) && !vigente,
+        error: vigente ? resultado.error : null,
+    };
 }

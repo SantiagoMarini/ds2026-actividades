@@ -1,54 +1,44 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Fondo } from '../components/Fondo';
+import { obtenerLibroPorId } from '../services/libros';
+import type { LibroCardData } from '../types/libro';
 
 export function LibroDetalle() {
 
     const { id } = useParams();
 
-    const [libro, setLibro] = useState<any>(null);
-    const [cargando, setCargando] = useState(true);
-    const [error, setError] = useState('');
+    const [detalle, setDetalle] = useState<{
+        id?: string;
+        libro: LibroCardData | null;
+        error: string;
+        cargando: boolean;
+    }>({ libro: null, error: '', cargando: true });
 
     useEffect(() => {
-        const obtenerDetalleLibro = async () => {
-            setCargando(true);
-            setError('');
-            
-            try {
-                // Hacemos un fetch a OpenLibrary usando el ID (titulo) que llegó por la URL
-                const url = `https://openlibrary.org/search.json?q=${id}`;
-                const response = await fetch(url);
-                
-                if (!response.ok) {
-                    throw new Error(`Error HTTP: ${response.status}`);
-                }
-
-                const data = await response.json();
-
-                if (data.docs && data.docs.length > 0) {
-                    const libroApi = data.docs[0];
-                    setLibro({
-                        titulo: libroApi.title,
-                        autor: libroApi.author_name ? libroApi.author_name[0] : 'Autor desconocido',
-                        descripcion: "OpenLibrary no siempre provee descripciones completas en este endpoint, pero aquí iría la sinopsis del libro recuperado de la API.",
-                        precio: "$4.500", // La API no da precios, lo mantenemos estático
-                        imagen: libroApi.cover_i 
-                            ? `https://covers.openlibrary.org/b/id/${libroApi.cover_i}-L.jpg` 
-                            : `https://picsum.photos/seed/${encodeURIComponent(libroApi.title)}/400/600`
+        const controller = new AbortController();
+        obtenerLibroPorId(id ?? '', controller.signal)
+            .then((libro) => {
+                if (!controller.signal.aborted) {
+                    setDetalle({
+                        id, libro, cargando: false,
+                        error: libro ? '' : 'No se encontró el libro solicitado.',
                     });
-                } else {
-                    setError('No se encontraron detalles para este libro.');
                 }
-            } catch (error: any) {
-                setError(`No se pudo conectar con Open Library: ${error.message}`);
-            } finally {
-                setCargando(false);
-            }
-        };
+            })
+            .catch((error: unknown) => {
+                if (!controller.signal.aborted) {
+                    setDetalle({
+                        id, libro: null, cargando: false,
+                        error: error instanceof Error ? error.message : 'No se pudo cargar el libro.',
+                    });
+                }
+            });
+        return () => controller.abort();
+    }, [id]);
 
-        obtenerDetalleLibro();
-    }, [id]); 
+    const cargando = detalle.id !== id || detalle.cargando;
+    const { libro, error } = detalle;
 
     return (
         <Fondo>
@@ -94,11 +84,11 @@ export function LibroDetalle() {
                             </p>
 
                             <p className="text-lg leading-relaxed mb-8 [text-shadow:1px_1px_0px_#000] text-gray-200">
-                                {libro.descripcion}
+                                {libro.descripcion || 'No hay una descripción disponible para este libro.'}
                             </p>
 
                             <p className="text-4xl text-yellow-300 font-bold mb-10 [text-shadow:3px_3px_0px_#000]">
-                                {libro.precio}
+                                {new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(libro.precio)}
                             </p>
 
                             <div className="flex flex-wrap gap-4">

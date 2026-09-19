@@ -46,13 +46,6 @@ export function Header() {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/contacto" 
-                            className={`btn-minecraft w-full md:w-auto flex-1 flex justify-center items-center px-4 ${location.pathname === '/sobre-nosotros' ? 'mt-1 pt-0' : ''}`}
-                            style={location.pathname === '/contacto' ? { backgroundImage: 'none', backgroundColor: '#3a971e' } : {}}>
-                            <span className={`${location.pathname === '/contacto' ? 'translate-y-1.5' : 'translate-y-1'}`}>Sobre nosotros</span>
-                        </Link>
-                    </li>
-                    <li>
                         <Link to="/libros/nuevo" 
                             className={`btn-minecraft w-full md:w-auto flex-1 flex justify-center items-center px-4 ${location.pathname === '/sobre-nosotros' ? 'mt-1 pt-0' : ''}`}
                             style={location.pathname === '/libros/nuevo' ? { backgroundImage: 'none', backgroundColor: '#3a971e' } : {}}>

@@ -15,9 +15,11 @@ export interface Libro extends LibroBase {
     categorias?: Categoria[];
 }
 
-// Modelo temporal usado por las pantallas que todavía consumen OpenLibrary
-// o datos hardcodeados. Al conectar el backend, LibroCard podrá recibir Libro.
+// Modelo de presentación compartido por tarjetas y detalle.
+// La fuente de datos adapta aquí sus IDs, autor y descripción.
 export interface LibroCardData {
+    id: string;
+    descripcion?: string;
     titulo: string;
     autor: string;
     precio: number;

@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LibroCard } from '../components/LibroCard';
 import { SearchBar } from '../components/SearchBar';
 import { Fondo } from '../components/Fondo';
-import type { LibroCardData } from '../types/libro';
+import { adaptarResultados, recordarLibros } from '../services/libros';
+import type { BusquedaOpenLibrary } from '../services/libros';
 import { useFetch } from '../hooks/useFetch';
 
 export function Catalogo() {
     const [terminoBuscado, setTerminoBuscado] = useState(''); 
     const [urlBusqueda, setUrlBusqueda] = useState(''); 
 
-    const { data, loading, error } = useFetch<any>(urlBusqueda);
+    const { data, loading, error } = useFetch<BusquedaOpenLibrary>(urlBusqueda);
 
     const buscarLibros = (termino: string) => {
         if (!termino.trim()) {
@@ -22,17 +23,11 @@ export function Catalogo() {
         setUrlBusqueda(`https://openlibrary.org/search.json?q=${encodeURIComponent(termino)}`);
     };
 
-    // Mapeamos los datos recibidos de la API y los asignamos directamente al array a mostrar
-    const librosAMostrar: LibroCardData[] = data?.docs ? data.docs.slice(0, 10).map((libro: any) => {
-        return {
-            titulo: libro.title,
-            autor: libro.author_name ? libro.author_name[0] : 'Autor desconocido',
-            precio: 15000, 
-            imagen: libro.cover_i 
-                ? `https://covers.openlibrary.org/b/id/${libro.cover_i}-M.jpg` 
-                : `https://picsum.photos/seed/${encodeURIComponent(libro.title)}/400/300`
-        };
-    }) : [];
+    const librosAMostrar = adaptarResultados(data);
+
+    useEffect(() => {
+        recordarLibros(adaptarResultados(data));
+    }, [data]);
 
     // Condición para saber si la búsqueda en la API volvió vacía
     const sinResultados = !loading && !error && terminoBuscado && librosAMostrar.length === 0;
@@ -76,7 +71,7 @@ export function Catalogo() {
             {!loading && !error && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                     {librosAMostrar.map((libro) => (
-                        <LibroCard key={libro.titulo} libro={libro} />
+                        <LibroCard key={libro.id} libro={libro} />
                     ))}
                 </div>
             )}

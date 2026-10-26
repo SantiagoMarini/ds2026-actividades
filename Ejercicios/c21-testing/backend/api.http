@@ -1,0 +1,293 @@
+@baseUrl = http://localhost:3000/api
+@clienteToken = {{loginCliente.response.body.token}}
+@adminToken = {{loginAdmin.response.body.token}}
+
+### ============================
+### LIBROS
+### ============================
+
+### Listar todos los libros
+GET {{baseUrl}}/libros
+
+### Listar solo disponibles
+GET {{baseUrl}}/libros?disponible=true
+
+### Obtener un libro por id (con autor y categorías)
+GET {{baseUrl}}/libros/1
+
+
+### Crear un libro
+POST {{baseUrl}}/libros
+Content-Type: application/json
+
+{
+  "titulo": "Cien años de soledad",
+  "precio": 8500,
+  "imagen": "https://ejemplo.com/cien-anios.jpg",
+  "autorId": 101
+}
+
+### Actualizar un libro (parcial)
+PUT {{baseUrl}}/libros/1
+Content-Type: application/json
+
+{
+  "precio": 9200
+}
+
+### Borrar un libro
+DELETE {{baseUrl}}/libros/12
+
+
+### ============================
+### AUTORES
+### ============================
+
+### Listar todos los autores
+GET {{baseUrl}}/autores
+
+### Obtener un autor por id
+GET {{baseUrl}}/autores/1
+
+### Crear un autor
+POST {{baseUrl}}/autores
+Content-Type: application/json
+
+{
+  "nombre": "Gabriel García Márquez",
+  "nacionalidad": "Colombia"
+}
+
+### Actualizar un autor
+PUT {{baseUrl}}/autores/1
+Content-Type: application/json
+
+{
+  "nacionalidad": "Colombiana"
+}
+
+### Borrar un autor
+DELETE {{baseUrl}}/autores/1
+
+
+### ============================
+### CATEGORIAS
+### ============================
+
+### Listar todas las categorías
+GET {{baseUrl}}/categorias
+
+### Obtener una categoría por id
+GET {{baseUrl}}/categorias/1
+
+### Crear una categoría
+POST {{baseUrl}}/categorias
+Content-Type: application/json
+
+{
+  "nombre": "Novela"
+}
+
+### Actualizar una categoría
+PUT {{baseUrl}}/categorias/1
+Content-Type: application/json
+
+{
+  "nombre": "Novela histórica"
+}
+
+### Borrar una categoría
+DELETE {{baseUrl}}/categorias/1
+
+
+### ============================
+### CASOS DE ERROR
+### ============================
+
+### 400 - libro sin título (falla Zod)
+POST {{baseUrl}}/libros
+Content-Type: application/json
+
+{
+  "precio": 5000,
+  "imagen": "https://ejemplo.com/x.jpg",
+  "autorId": 1
+}
+
+### 400 - precio negativo (falla Zod)
+POST {{baseUrl}}/libros
+Content-Type: application/json
+
+{
+  "titulo": "Libro gratis",
+  "precio": -100,
+  "imagen": "https://ejemplo.com/x.jpg",
+  "autorId": 1
+}
+
+### 400 - id con formato inválido (letras en vez de número)
+GET {{baseUrl}}/libros/abc
+
+### 400 - autor con formato válido pero que no existe (P2003 en el service)
+POST {{baseUrl}}/libros
+Content-Type: application/json
+
+{
+  "titulo": "Libro huérfano",
+  "precio": 5000,
+  "imagen": "https://ejemplo.com/x.jpg",
+  "autorId": 9999
+}
+
+### 404 - actualizar un libro que no existe
+PUT {{baseUrl}}/libros/9999
+Content-Type: application/json
+
+{
+  "precio": 100
+}
+
+### 404 - borrar una categoría que no existe
+DELETE {{baseUrl}}/categorias/9999
+
+### 409 - crear un autor duplicado (viola @unique en nombre)
+POST {{baseUrl}}/autores
+Content-Type: application/json
+
+{
+  "nombre": "Gabriel García Márquez",
+  "nacionalidad": "Colombia"
+}
+
+### 409 - borrar un autor que todavía tiene libros (onDelete: Restrict)
+DELETE {{baseUrl}}/autores/1
+
+
+### ============================
+### AUTH
+### ============================
+
+### 1. Registro correcto → 201 (la respuesta NO debe incluir passwordHash)
+# @name authRegistro
+POST {{baseUrl}}/auth/registro
+Content-Type: application/json
+
+{
+  "nombre": "Usuario de Prueba",
+  "email": "prueba@libreria.test",
+  "password": "Prueba1234"
+}
+
+
+### 2. Registro con el mismo email del caso 1 → 409 (viola @unique en email)
+POST {{baseUrl}}/auth/registro
+Content-Type: application/json
+
+{
+  "nombre": "Otro Usuario",
+  "email": "prueba@libreria.test",
+  "password": "Otra1234"
+}
+
+
+### 3. Registro con password corta → 400 (3 errores: min 8, mayúscula, número)
+POST {{baseUrl}}/auth/registro
+Content-Type: application/json
+
+{
+  "nombre": "Pass Corta",
+  "email": "passcorta@libreria.test",
+  "password": "abc"
+}
+
+
+### 4. Login con email que no existe → 401 "Credenciales inválidas"
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "noexiste@libreria.test",
+  "password": "Cualquiera123"
+}
+
+
+### 5. Login con password incorrecto (usuario real del seed) → 401 mismo mensaje
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "cliente@libreria.test",
+  "password": "PasswordEquivocada123"
+}
+
+
+### 6. Login correcto con CLIENTE del seed → 200 con token (usado en casos 8 y 10)
+# @name loginCliente
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "cliente@libreria.test",
+  "password": "Cliente1234"
+}
+
+
+### 7. GET /auth/yo sin header Authorization → 401
+GET {{baseUrl}}/auth/yo
+
+### 8. GET /auth/yo con token CLIENTE del caso 6 → 200
+GET {{baseUrl}}/auth/yo
+Authorization: Bearer {{clienteToken}}
+
+
+### 9. POST /libros sin header Authorization → 401
+POST {{baseUrl}}/libros
+Content-Type: application/json
+
+{
+  "titulo": "Sin Autorización",
+  "precio": 1000,
+  "imagen": "https://ejemplo.com/sin-token.jpg",
+  "autorId": 101
+}
+
+
+### 10. POST /libros con token CLIENTE → 403 (solo ADMIN puede crear)
+POST {{baseUrl}}/libros
+Authorization: Bearer {{clienteToken}}
+Content-Type: application/json
+
+{
+  "titulo": "Cliente sin Permiso",
+  "precio": 1000,
+  "imagen": "https://ejemplo.com/cliente.jpg",
+  "autorId": 101
+}
+
+
+### Login ADMIN del seed (prepara el token para el caso 11)
+# @name loginAdmin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@libreria.test",
+  "password": "Admin1234"
+}
+
+
+### 11. POST /libros con token ADMIN → 201 (autorId 101 ya seedeado)
+POST {{baseUrl}}/libros
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "titulo": "Libro creado por Admin",
+  "precio": 25000,
+  "imagen": "https://ejemplo.com/libro-admin.jpg",
+  "autorId": 101
+}
+
+
+### 12. GET /libros sin header Authorization → 200 (es público)
+GET {{baseUrl}}/libros
